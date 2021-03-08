@@ -1,6 +1,6 @@
 {
     "manifest_version": 2,
-    "name": "Startpage #3",
+    "name": "Tertius",
     "version": "1.0.0",
     "description": "Startpage inspired by Nord theme",
     "chrome_url_overrides": {

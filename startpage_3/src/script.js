@@ -1,17 +1,19 @@
 let se = 3;
 
+randomQuote();
+
 //document.addEventListener("touchstart", function() {}, true);
 
 // The same as "onload"
 window.addEventListener('load', (event) => {
     let today = new Date();
-    let time = today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    let time = today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     displayTime(time);
 });
 
-setInterval(function () {
+setInterval(function() {
     var today = new Date();
-    var time = today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    var time = today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     document.getElementById("time").innerHTML = time;
 }, 1000);
 
@@ -31,11 +33,12 @@ document.getElementById("se_button").addEventListener("click", function() {
 
 //Do not allow searching if the user clicks "GO" when the search box is empty
 function check_if_search_empty(event) {
-if (document.forms["search_eng_form"]["q"].value == "") {
-    event.preventDefault();
-}}
+    if (document.forms["search_eng_form"]["q"].value == "") {
+        event.preventDefault();
+    }
+}
 
-document.getElementById("go_btn").addEventListener("click", function(){
+document.getElementById("go_btn").addEventListener("click", function() {
     check_if_search_empty(event);
 });
 
@@ -43,23 +46,35 @@ const search_engines = [{
     src: "ddg.svg",
     placeholder: "DuckDuckGo",
     action: "https://www.duckduckgo.com/"
-  }, {
+}, {
     src: "goog.svg",
     placeholder: "Google",
     action: "https://www.google.com/search?q="
-  },  {
+}, {
     src: "reddit.svg",
     placeholder: "Reddit",
     action: "https://www.reddit.com/search?q="
-  },  {
+}, {
     src: "youtube.svg",
     placeholder: "YouTube",
     action: "https://www.youtube.com/results?q="
 }];
-  
+
 const cycleSearchEngines = se => {
-    const curData = search_engines[(se+1) % search_engines.length];
+    const curData = search_engines[(se + 1) % search_engines.length];
     document.getElementById("se_icon").src = "icons/" + curData.src;
     document.getElementById("search").placeholder = "Searching with " + curData.placeholder;
     document.getElementById("search_eng_form").action = curData.action;
 };
+
+
+async function randomQuote() {
+    const response = await fetch('https://api.quotable.io/random?maxLength=150')
+    const data = await response.json()
+    $(document).ready(function() {
+        $("#qotd").html(data.content);
+        $("#qauthor").html(data.author);
+        $("div.hidden").css('visibility', 'visible').hide().fadeIn();
+        // console.log(data.content);
+    });
+}
